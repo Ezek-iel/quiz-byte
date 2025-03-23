@@ -9,6 +9,16 @@
   const history: Array<History> = $state([]);
 
   let response = $state("");
+  let reportContainer: HTMLDivElement;
+
+  function scrollDown(): void {
+    if (reportContainer) {
+      reportContainer.scrollTo({
+        top: reportContainer.scrollHeight,
+        behavior: "smooth", // Adds smooth scrolling
+      });
+    }
+  }
 
   //TODO - Scroll down to the bottom on generateText
   async function generateText() {
@@ -20,10 +30,13 @@
     };
 
     history.push({ sender: "User", message: userInput });
+    scrollDown();
     question = "";
     response = await generate(userInput);
     isLoading = false;
     history.push({ sender: "AI", message: response });
+
+    scrollDown();
   }
 
   function setSimplicity(value: "Simple" | "Normal" | "Complicated") {
@@ -36,9 +49,12 @@
       generateText();
     }
   });
+
+  
 </script>
 
-<div id="report">
+<!-- TODO Please clean this up -->
+<div id="report" bind:this={reportContainer}>
   <section class="section">
     {#if history.length > 0}
       {#each history as { sender, message }, _ (_)}
@@ -49,16 +65,17 @@
               <div class="content">
                 {@html parse(formattedResponse.answer)}
               </div>
-              {#each formattedResponse["follow-up"] as followUp}
+              {#each formattedResponse["followUp"] as followUp}
                 <div class="buttons">
                   <button
-                    class="button is-rounded"
                     onclick={() => {
                       question = followUp;
                       generateText();
                     }}
                   >
-                    {followUp}
+                    <div class="notification is-primary is-selectable">
+                      <p class="has-text-left">{@html parse(followUp)}</p>
+                    </div>
                   </button>
                 </div>
               {/each}
@@ -150,9 +167,5 @@
     height: 85vh;
     overflow-y: auto;
     scrollbar-color: lightgrey transparent;
-  }
-
-  button {
-    display: inline;
   }
 </style>

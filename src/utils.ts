@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType, type Schema } from "@google/generative-ai";
 import showdown from "showdown";
 
 const systemInstruction = `
@@ -38,17 +38,41 @@ Let the follow up field be from the user's perspective like this.
 
 `
 
+const responseSchema : Schema = {
+    description: "A response from the AI",
+    type: SchemaType.OBJECT,
+    properties: {
+        answer: {
+            description: "The answer to the question",
+            type: SchemaType.STRING
+        },
+        followUp: {
+            description: "Follow up questions to ask the user",
+            type: SchemaType.ARRAY,
+            items: {
+                type: SchemaType.STRING
+            }
+        }
+    }
+}
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY!);
+const model = genAI.getGenerativeModel({ 
+    model: "gemini-2.0-flash", 
+    systemInstruction: systemInstruction, 
+    generationConfig: { responseMimeType: "application/json", responseSchema: responseSchema }});
+const chat = model.startChat();
+
+// XXX Refactoring the whole code into to include support for multiple conversations using a chat.
 export async function generate(prompt: Prompt) {
 
     if (prompt.question.length === 0) {
         return "Enter a prompt to generate content";
     }
 
-    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY!);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash", systemInstruction: systemInstruction });
 
-    const result = await model.generateContent(JSON.stringify(prompt));
-    return sanitize(result.response.text());
+    const result = await chat.sendMessage(JSON.stringify(prompt));
+    console.log(result.response.text())
+    return result.response.text();
 }
 
 
@@ -56,11 +80,6 @@ export function parse(text: string) {
     let converter = new showdown.Converter({ tables: true });
     return converter.makeHtml(text);
 }
-
-function sanitize(input: string) {
-    return input.slice(7).slice(0, -3);
-}
-
 export type History = {
     sender: "User" | "AI";
     message: string | Prompt;
