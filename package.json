@@ -10,7 +10,8 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"build-bulma": "sass --load-path=node_modules ./src/style.scss ./src/styles/style.css"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
