@@ -1,0 +1,20 @@
+
+// Import the components you need
+@forward "bulma/sass/base";
+@forward "bulma/sass/components/modal";
+@forward "bulma/sass/components/navbar";
+@forward "bulma/sass/elements/button";
+@forward "bulma/sass/elements/icon";
+@forward "bulma/sass/elements/content";
+@forward "bulma/sass/layout/container";
+@forward "bulma/sass/elements/box";
+@forward "bulma/sass/elements/notification";
+@forward "bulma/sass/elements/progress";
+@forward "bulma/sass/elements/tag";
+@forward "bulma/sass/layout/hero";
+@forward "bulma/sass/form";
+@forward "bulma/sass/grid/columns";
+@forward "bulma/sass/helpers";
+
+// Import the themes so that all CSS variables have a value
+@forward "bulma/sass/themes";
