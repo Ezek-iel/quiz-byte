@@ -15,9 +15,12 @@
                     <p class="is-size-1 has-text-weight-bold has-text-centered">
                         Quizbyte
                     </p>
-                    <a class="button ml-2" href="https://www.github.com/Ezek-iel/quiz-byte">
+                    <a
+                        class="button ml-2"
+                        href="https://www.github.com/Ezek-iel/quiz-byte"
+                    >
                         <span class="icon">
-                           <Code/>
+                            <Code />
                         </span>
                     </a>
                 </div>
@@ -29,7 +32,7 @@
                 </p>
                 <CenterColumn size={8}>
                     <form action="/quiz" class="mt-5">
-                        <div class="columns">
+                        <div class="columns is-multiline">
                             <div class="column is-9">
                                 <div class="control has-icons-left">
                                     <span class="icon is-small is-left">
@@ -55,11 +58,28 @@
                                     </button>
                                 </div>
                             </div>
+                            <div class="column is-12 mt-6">
+                                <p
+                                    class="is-size-4 has-text-centered has-text-weight-semibold"
+                                >
+                                    Difficulty <span class="tag"
+                                        >Coming Soon</span
+                                    >
+                                </p>
+                            </div>
+                            <div class="column is-12 is-flex is-justify-content-center is-gap-2">
+                                <button class="button is-primary is-rounded" disabled>Easy</button>
+                                <button class="button is-rounded" disabled>Hard</button>
+                                <button class="button is-rounded" disabled>Super Complicated</button>
+                            </div>
+                            
                         </div>
                     </form>
                 </CenterColumn>
                 <p class="is-size-7 has-text-grey has-text-centered">
-                    <strong class="has-text-primary-30">Note:</strong> AI provides helpful suggestions, but it might occasionally err – please double-check the recommendations.
+                    <strong class="has-text-primary-30">Note:</strong> AI provides
+                    helpful suggestions, but it might occasionally err – please double-check
+                    the recommendations.
                 </p>
             </CenterColumn>.
         </div>

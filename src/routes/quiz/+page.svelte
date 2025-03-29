@@ -5,6 +5,8 @@
     import type { Question } from "$lib/types";
     import { generateContent } from "$lib/utils";
     import { onMount } from "svelte";
+    import { fly } from "svelte/transition";
+    import Result from "$lib/shared/Result.svelte";
 
     interface Choice {
         selection: number;
@@ -16,8 +18,8 @@
 
     let questions: Question[] = $state([]);
     $inspect(questions).with(function (type, value) {
-        console.log(type)
-        console.table(value)
+        console.log(type);
+        console.table(value);
     });
 
     onMount(() => {
@@ -28,10 +30,11 @@
         });
     });
 
-    let score: number = 0;
+    let score: number = $state(0);
     let quizLog: Choice[] = $state([]);
     let current: number = $state(1);
     let question: Question = $derived(questions[current - 1]);
+    let isDone: boolean = $state(false);
 
     function check(option: number) {
         if (!quizLog[current - 1]) {
@@ -45,7 +48,7 @@
             } else {
                 newAnswer.remark = "Wrong";
             }
-            quizLog[current - 1] = newAnswer;
+            quizLog.push(newAnswer);
         }
     }
 </script>
@@ -60,7 +63,7 @@
         <CenterColumn size={7}>
             <div
                 class="box is-shadowless {isCorrect
-                    ? 'has-background-primary-70'
+                    ? 'has-background-success-70'
                     : ''}
                     {isWrong ? 'has-background-danger-70' : ''}"
                 data-class="option"
@@ -91,14 +94,16 @@
 {/snippet}
 
 {#if isLoading}
-    <LoadingState/>
+    <LoadingState />
+{:else if isDone}
+    <Result {score} {questions} />
 {:else}
     <section class="hero">
         <div class="hero-body">
             <CenterColumn size={8}>
-                <div class="box">
+                <div class="box" in:fly={{ y: 20 }}>
                     <div class="content">
-                        <h1 class="is-size-2 has-text-centered">
+                        <h1 class="is-size-3 has-text-centered">
                             Question {current} of {questions.length}
                         </h1>
                         <br />
@@ -155,13 +160,17 @@
 
                                     <button
                                         class="button is-medium is-primary"
-                                        onclick={() => {
-                                            current++;
-                                        }}
-                                        disabled={current == questions.length ||
-                                            !Boolean(quizLog[current - 1])}
-                                        >Next</button
-                                    >
+                                        onclick={
+                                            function (e){
+                                                if (current == questions.length) {
+                                                    isDone = true;
+                                                } else {
+                                                    current++;
+                                                }
+                                            }
+                                        }
+                                        disabled={!quizLog[current - 1]}>
+                                        Next</button>
                                 </div>
                             </CenterColumn>
                         </div>

@@ -68,7 +68,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
     // *** Use a stable model ***
-    model: "gemini-1.5-pro-latest", // Or "gemini-1.0-pro"
+    model: "gemini-1.5-flash", // Or "gemini-1.0-pro"
     generationConfig: {
         responseMimeType: "application/json",
         responseSchema: responseSchema, 

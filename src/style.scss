@@ -1,4 +1,8 @@
 
+@use "bulma/sass/utilities" with (
+  $family-primary: '"Ubuntu Sans", sans-serif',
+  $primary: #3590F3,
+);
 // Import the components you need
 @forward "bulma/sass/base";
 @forward "bulma/sass/components/modal";
@@ -18,3 +22,6 @@
 
 // Import the themes so that all CSS variables have a value
 @forward "bulma/sass/themes";
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+
