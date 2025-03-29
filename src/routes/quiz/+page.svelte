@@ -1,7 +1,10 @@
 <script lang="ts">
-    import { BoxSelect, Check, Inspect, LucideX } from "lucide-svelte";
+    import { BoxSelect, Check, LucideX } from "lucide-svelte";
     import CenterColumn from "$lib/shared/CenterColumn.svelte";
+    import LoadingState from "$lib/shared/LoadingState.svelte";
     import type { Question } from "$lib/types";
+    import { generateContent } from "$lib/utils";
+    import { onMount } from "svelte";
 
     interface Choice {
         selection: number;
@@ -9,10 +12,24 @@
     }
 
     let { data } = $props();
+    let isLoading = $state(true);
+
+    let questions: Question[] = $state([]);
+    $inspect(questions).with(function (type, value) {
+        console.log(type)
+        console.table(value)
+    });
+
+    onMount(() => {
+        generateContent(data.topic).then((result) => {
+            console.log(result);
+            isLoading = false;
+            questions = JSON.parse(result) as Question[];
+        });
+    });
 
     let score: number = 0;
     let quizLog: Choice[] = $state([]);
-    let questions: Question[] = data.question;
     let current: number = $state(1);
     let question: Question = $derived(questions[current - 1]);
 
@@ -22,12 +39,11 @@
                 selection: option,
             };
 
-            if (option == question.answer){
-                newAnswer.remark = "Correct"
+            if (option == question.answer) {
+                newAnswer.remark = "Correct";
                 score++;
-            }
-            else {
-                newAnswer.remark = "Wrong"
+            } else {
+                newAnswer.remark = "Wrong";
             }
             quizLog[current - 1] = newAnswer;
         }
@@ -74,80 +90,87 @@
     </div>
 {/snippet}
 
-<section class="hero">
-    <div class="hero-body">
-        <CenterColumn size={8}>
-            <div class="box">
-                <div class="content">
-                    <h1 class="is-size-2 has-text-centered">
-                        Question {current} of {questions.length}
-                    </h1>
-                    <br />
-                    <br />
-                    <CenterColumn size={8}>
-                        <p class="is-size-5 has-text-centered">
-                            {question.questionText}
-                        </p>
-                    </CenterColumn>
-                    <br />
-                    <br />
+{#if isLoading}
+    <LoadingState/>
+{:else}
+    <section class="hero">
+        <div class="hero-body">
+            <CenterColumn size={8}>
+                <div class="box">
+                    <div class="content">
+                        <h1 class="is-size-2 has-text-centered">
+                            Question {current} of {questions.length}
+                        </h1>
+                        <br />
+                        <br />
+                        <CenterColumn size={8}>
+                            <p class="is-size-5 has-text-centered">
+                                {question.questionText}
+                            </p>
+                        </CenterColumn>
+                        <br />
+                        <br />
 
-                    {#each question.options as option, index (index)}
-                    {@const currentQuestion = quizLog[current - 1]}
-                        {#if currentQuestion}
-                            {#if question.answer == index}
-                                {@render optionSnippet(
-                                    option,
-                                    index,
-                                    true,
-                                    false,
-                                )}
-                            {:else if currentQuestion.remark === "Wrong" && currentQuestion.selection == index}
-                                {@render optionSnippet(
-                                    option,
-                                    index,
-                                    false,
-                                    true,
-                                )}
+                        {#each question.options as option, index (index)}
+                            {@const currentQuestion = quizLog[current - 1]}
+                            {#if currentQuestion}
+                                {#if question.answer == index}
+                                    {@render optionSnippet(
+                                        option,
+                                        index,
+                                        true,
+                                        false,
+                                    )}
+                                {:else if currentQuestion.remark === "Wrong" && currentQuestion.selection == index}
+                                    {@render optionSnippet(
+                                        option,
+                                        index,
+                                        false,
+                                        true,
+                                    )}
+                                {:else}
+                                    {@render optionSnippet(option, index)}
+                                {/if}
                             {:else}
                                 {@render optionSnippet(option, index)}
                             {/if}
-                        {:else}
-                            {@render optionSnippet(option, index)}
+                        {/each}
+                        {#if quizLog[current - 1]}
+                            <p class="is-size-5 has-text-centered">
+                                {question.remark}
+                            </p>
                         {/if}
-                    {/each}
-                    {#if quizLog[current - 1]}
-                        <p class="is-size-5 has-text-centered">{question.remark}</p>
-                    {/if}
-                    <div class="mt-6">
-                        <CenterColumn size={8}>
-                            <div
-                                class="is-flex is-justify-content-space-between"
-                            >
-                                <button
-                                    class="button is-medium"
-                                    onclick={() => {
-                                        current--;
-                                    }}
-                                    disabled={current == 1}>Previous</button
+                        <div class="mt-6">
+                            <CenterColumn size={8}>
+                                <div
+                                    class="is-flex is-justify-content-space-between"
                                 >
+                                    <button
+                                        class="button is-medium"
+                                        onclick={() => {
+                                            current--;
+                                        }}
+                                        disabled={current == 1}>Previous</button
+                                    >
 
-                                <button
-                                    class="button is-medium is-primary"
-                                    onclick={() => {
-                                        current++;
-                                    }}
-                                    disabled={current == questions.length || !Boolean(quizLog[current - 1])}
-                                    >Next</button
-                                >
-                            </div>
-                        </CenterColumn>
+                                    <button
+                                        class="button is-medium is-primary"
+                                        onclick={() => {
+                                            current++;
+                                        }}
+                                        disabled={current == questions.length ||
+                                            !Boolean(quizLog[current - 1])}
+                                        >Next</button
+                                    >
+                                </div>
+                            </CenterColumn>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </CenterColumn>
-    </div>
-</section>
+            </CenterColumn>
+        </div>
+    </section>
+{/if}
 
 <style>
     button:not(button.button) {
