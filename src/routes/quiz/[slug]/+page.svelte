@@ -2,8 +2,8 @@
     import { BoxSelect, Check, LucideX } from "lucide-svelte";
     import CenterColumn from "$lib/shared/CenterColumn.svelte";
     import LoadingState from "$lib/shared/LoadingState.svelte";
-    import type { Question } from "$lib/types";
-    import { generateContent } from "$lib/utils";
+    import type { Question } from "$lib/utils/types";
+    import { generateContent } from "$lib/utils/ai";
     import { onMount } from "svelte";
     import { fly } from "svelte/transition";
     import Result from "$lib/shared/Result.svelte";
@@ -52,7 +52,7 @@
         }
     }
 </script>
-
+<!--TODO This component can be refactored better and shorter   -->
 {#snippet optionSnippet(
     text: string,
     id: number,
