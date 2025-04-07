@@ -1,6 +1,10 @@
 <script lang="ts">
     import CenterColumn from "$lib/shared/CenterColumn.svelte";
-    import { SearchIcon, Code } from "lucide-svelte";
+    import { SearchIcon } from "lucide-svelte";
+    import { enhance } from "$app/forms";
+
+    let isLoading = $state(false);
+    let topic = $state('');
 </script>
 
 <section class="hero is-large">
@@ -15,24 +19,21 @@
                     <p class="is-size-1 has-text-weight-bold has-text-centered">
                         Quizbyte
                     </p>
-                    <a
-                        class="button ml-2"
-                        href="https://www.github.com/Ezek-iel/quiz-byte"
-                    >
-                        <span class="icon">
-                            <Code />
-                        </span>
-                    </a>
                 </div>
-                <p class="is-size-2 has-text-weight-semibold has-text-centered">
+                <p class="is-size-3 has-text-weight-semibold has-text-centered">
                     What do you want to test yourself on <span
                         class="has-text-primary-30 is-underlined has-text-weight-bold"
                         >today?</span
                     >
                 </p>
                 <CenterColumn size={8}>
-                    <form action="/quiz" class="mt-5">
-                        <div class="columns is-multiline">
+                    <form
+                        action="/create"
+                        class="mt-5"
+                        method="POST"
+                        use:enhance
+                    >
+                        <div class="columns is-mobile">
                             <div class="column is-9">
                                 <div class="control has-icons-left">
                                     <span class="icon is-small is-left">
@@ -43,14 +44,19 @@
                                         class="input"
                                         placeholder="Ask for something"
                                         name="topic"
+                                        bind:value={topic}
                                     />
                                 </div>
                             </div>
                             <div class="column is-3">
                                 <div class="control">
                                     <button
-                                        class="button is-primary"
+                                        class="button is-primary {isLoading
+                                            ? 'is-loading'
+                                            : ''}"
                                         type="submit"
+                                        disabled = {!topic}
+                                        onclick={() => {isLoading = true}}
                                     >
                                         <span class="icon">
                                             <SearchIcon />
@@ -58,24 +64,10 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="column is-12 mt-6">
-                                <p
-                                    class="is-size-4 has-text-centered has-text-weight-semibold"
-                                >
-                                    Difficulty <span class="tag"
-                                        >Coming Soon</span
-                                    >
-                                </p>
-                            </div>
-                            <div class="column is-12 is-flex is-justify-content-center is-gap-2">
-                                <button class="button is-primary is-rounded" disabled>Easy</button>
-                                <button class="button is-rounded" disabled>Hard</button>
-                                <button class="button is-rounded" disabled>Super Complicated</button>
-                            </div>
-                            
                         </div>
                     </form>
                 </CenterColumn>
+                <!-- <p class="is-size-6 has-text-centered mb-3"><a href="/quiz" class="has-text-primary-20 has-text-weight-bold is-underlined">View Created Quizzes</a></p> -->
                 <p class="is-size-7 has-text-grey has-text-centered">
                     <strong class="has-text-primary-30">Note:</strong> AI provides
                     helpful suggestions, but it might occasionally err – please double-check
