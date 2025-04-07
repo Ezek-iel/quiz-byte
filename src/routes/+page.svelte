@@ -16,15 +16,17 @@
                 <div
                     class="is-flex is-align-items-center is-justify-content-center is-gap-1"
                 >
-                    <p class="is-size-1 has-text-weight-bold has-text-centered">
+                    <p
+                        class="is-size-1 has-text-weight-bold has-text-centered has-text-primary-20"
+                    >
                         Quizbyte
                     </p>
                 </div>
                 <p class="is-size-3 has-text-weight-semibold has-text-centered">
                     What do you want to test yourself on <span
                         class="has-text-primary-30 is-underlined has-text-weight-bold"
-                        >today?</span
-                    >
+                        >Quizzes</span
+                    > on any topic with AI
                 </p>
                 <CenterColumn size={8}>
                     <form
@@ -42,7 +44,7 @@
                                     <input
                                         type="text"
                                         class="input"
-                                        placeholder="Ask for something"
+                                        placeholder="Enter a quiz topic..."
                                         name="topic"
                                         bind:value={topic}
                                     />
@@ -69,9 +71,11 @@
                 </CenterColumn>
                 <!-- <p class="is-size-6 has-text-centered mb-3"><a href="/quiz" class="has-text-primary-20 has-text-weight-bold is-underlined">View Created Quizzes</a></p> -->
                 <p class="is-size-7 has-text-grey has-text-centered">
-                    <strong class="has-text-primary-30">Note:</strong> AI provides
-                    helpful suggestions, but it might occasionally err – please double-check
-                    the recommendations.
+                    <strong class="has-text-primary-30">Note:</strong> This is a
+                    demo version of the app. The full version will be available
+                    soon.
+                    <br /> The demo version is limited to
+                    <strong>10 questions per quiz.</strong>
                 </p>
             </CenterColumn>.
         </div>

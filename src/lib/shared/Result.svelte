@@ -1,7 +1,7 @@
 <script lang="ts">
     import CenterColumn from "./CenterColumn.svelte";
     import { fly } from "svelte/transition";
-    import {type Question} from "$lib/types";
+    import {type Question} from "$lib/utils/types";
     
     const {score, questions}: {score: number, questions: Question[]} = $props();
 </script>

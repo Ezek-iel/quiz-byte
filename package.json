@@ -14,8 +14,7 @@
 		"build-bulma": "sass --load-path=node_modules ./src/style.scss ./src/styles/style.css",
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio",
-		"db:start": "docker compose up"
+		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -35,6 +34,7 @@
 	},
 	"dependencies": {
 		"@google/generative-ai": "^0.24.0",
+		"@libsql/client": "^0.14.0",
 		"bulma": "^1.0.3",
 		"drizzle-orm": "^0.40.0",
 		"lucide-svelte": "^0.484.0",
