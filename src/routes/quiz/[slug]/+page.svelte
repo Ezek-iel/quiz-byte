@@ -14,7 +14,7 @@
     }
 
     let { data } = $props();
-    let isLoading = $state(true);
+    let isLoading = $state(true)
 
     let questions: Question[] = $state([]);
     $inspect(questions).with(function (type, value) {
