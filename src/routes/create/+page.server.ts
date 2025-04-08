@@ -1,5 +1,5 @@
 import type { Actions } from "./$types";
-import { generateContent } from "$lib/utils";
+import { generateContent } from "$lib/utils/ai";
 import { db } from "$lib/server/db";
 import { Quiz } from "$lib/server/db/schema";
 import { nanoid } from "nanoid";
