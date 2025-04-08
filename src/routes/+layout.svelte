@@ -5,4 +5,4 @@
 
 <!-- * All general page configurations are kept here -->
 
-{@render children()}
+{@render children()}    
