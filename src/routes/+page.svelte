@@ -4,7 +4,7 @@
     import { enhance } from "$app/forms";
 
     let isLoading = $state(false);
-    let topic = $state('');
+    let topic = $state("");
 </script>
 
 <section class="hero is-large">
@@ -23,10 +23,10 @@
                     </p>
                 </div>
                 <p class="is-size-3 has-text-weight-semibold has-text-centered">
-                    What do you want to test yourself on <span
+                    What do you want to <span
                         class="has-text-primary-30 is-underlined has-text-weight-bold"
-                        >Quizzes</span
-                    > on any topic with AI
+                        >test yourself on?</span
+                    >
                 </p>
                 <CenterColumn size={8}>
                     <form
@@ -57,8 +57,10 @@
                                             ? 'is-loading'
                                             : ''}"
                                         type="submit"
-                                        disabled = {!topic}
-                                        onclick={() => {isLoading = true}}
+                                        disabled={!topic}
+                                        onclick={() => {
+                                            isLoading = true;
+                                        }}
                                     >
                                         <span class="icon">
                                             <SearchIcon />
