@@ -2,7 +2,7 @@ import { GoogleGenerativeAI, type Schema, SchemaType } from "@google/generative-
 
 //* --- System Instruction ---
 const systemInstruction = `
-You are an expert quiz generator. Your task is to create a JSON array representing a quiz on a specified topic with exactly 10 questions.
+You are an expert quiz generator. Your task is to create a JSON array representing a quiz on a specified topic with exactly 30 questions.
 
 Each question must be an object with the following properties:
 - "questionText": A string containing the quiz question.
@@ -56,7 +56,7 @@ const responseSchema: Schema = {
         },
         required: ["questionText", "options", "answer", "remark"]  // All properties are required
     },
-    description: "An array containing exactly 10 quiz question objects."
+    description: "An array containing exactly 30 quiz question objects."
 };
 
 
