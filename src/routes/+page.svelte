@@ -77,7 +77,7 @@
                     demo version of the app. The full version will be available
                     soon.
                     <br /> The demo version is limited to
-                    <strong>10 questions per quiz.</strong>
+                    <strong>30 questions per quiz.</strong>
                 </p>
             </CenterColumn>.
         </div>
