@@ -30,11 +30,9 @@ const createThemeStore = () => {
             if (browser) {
                 // Try to get theme from localStorage
                 const stored = localStorage.getItem('theme') as Theme;
-                console.log('Stored theme:', stored);
                 if (stored && (stored === 'light' || stored === 'dark')) {
                     set(stored);
                     document.documentElement.className = `theme-${stored}`;
-                    console.log('Applied stored theme:', stored);
                 } else {
                     // Check for system preference
                     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -42,7 +40,6 @@ const createThemeStore = () => {
                     set(initialTheme);
                     document.documentElement.className = `theme-${initialTheme}`;
                     localStorage.setItem('theme', initialTheme);
-                    console.log('Applied initial theme:', initialTheme);
                 }
             }
         }
